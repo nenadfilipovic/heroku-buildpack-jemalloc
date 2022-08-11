@@ -43,6 +43,7 @@ To control when jemalloc is configured on a per dyno basis use
 `jemalloc.sh <cmd>` and ensure that JEMALLOC_ENABLED is unset.
 
 Example Procfile:
+
 ```yaml
 web: jemalloc.sh bundle exec puma -C config/puma.rb
 ```
@@ -119,6 +120,7 @@ Artifacts will be dropped in `dist/` based on Heroku stack and jemalloc version.
 - Drag and drop the new build to attach
 
 ### Creating a New Stack
+
 - Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
 - Click "Draft a new release"
 - Tag is the name of the Stack (e.g. `heroku-18`)

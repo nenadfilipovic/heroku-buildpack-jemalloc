@@ -2,12 +2,12 @@
 # bin/compile <build-dir> <cache-dir> <env-dir>
 set -e
 
-# Parse params
+# Parse parameters.
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-# SHA256 checksums of the sources hosted on GitHub at https://github.com/jemalloc/jemalloc/releases
+# SHA256 checksums of the sources hosted on GitHub at https://github.com/jemalloc/jemalloc/releases.
 declare -A checksums=(
   ['3.6.0']='e16c2159dd3c81ca2dc3b5c9ef0d43e1f2f45b04548f42db12e7c12d7bdf84fe'
   ['4.0.4']='3fda8d8d7fcd041aa0bebbecd45c46b28873cf37bd36c56bf44961b36d0f42d0'
@@ -23,24 +23,24 @@ declare -A checksums=(
   ['5.3.0']='2db82d1e7119df3e71b7640219b6dfe84789bc0537983c3b7ac4f7189aecfeaa'
 )
 
-# Default version
+# Default version.
 version="5.2.1"
 
-# Read version from configured JEMALLOC_VERSION
+# Read version from configured JEMALLOC_VERSION variable.
 if [ -f $ENV_DIR/JEMALLOC_VERSION ]; then
   version=$(cat $ENV_DIR/JEMALLOC_VERSION)
 fi
 
-# dest is the path in the application that jemalloc will be extracted to.
+# Dest is the path in the application that jemalloc will be extracted to.
 dest="$BUILD_DIR/vendor/jemalloc"
 
-# bundle is the full path to the cached jemalloc binaries for this version.
+# Bundle is the full path to the cached jemalloc binaries for this version.
 bundle=$CACHE_DIR/jemalloc/$STACK/$version
 
 function download() {
   url=https://github.com/jemalloc/jemalloc/releases/download/$version/jemalloc-$version.tar.bz2
 
-  # Disable exit on command failure so we can provide better error messages
+  # Disable exit on command failure so we can provide better error messages.
   set +e
 
   echo "       jemalloc: Downloading $url"
@@ -57,17 +57,17 @@ function download() {
     checksum=$(cat $ENV_DIR/JEMALLOC_CHECKSUM)
   fi
 
-  # Verify the SHA256 checksum for the source
+  # Verify the SHA256 checksum for the source.
   echo "$checksum  /tmp/jemalloc.tar.bz2" | sha256sum --status -c -
 
-  # Ensure the checksum passed
+  # Ensure the checksum passed.
   retVal=$?
   if [[ $retVal -ne 0 ]]; then
     echo " !     jemalloc: Downloaded source failed checksum"
     exit $retVal
   fi
 
-  # Reenable exit on failure
+  # Enable exit on failure.
   set -e
 }
 
@@ -76,24 +76,24 @@ function compile() {
 
   echo "       jemalloc: Compiling $version"
   (
-    # Only applies to this sub-shell
+    # Only applies to this sub-shell.
     set -e
 
     # Logs for the sub-shell go to /tmp/jemalloc.log for printing in case of an
     # error.
     exec > /tmp/jemalloc.log 2>&1
 
-    # Use a temporary directory to extract and compile the source
+    # Use a temporary directory to extract and compile the source.
     cd $(mktemp -d)
     mkdir -p $bundle
 
-    # Extract the source 
+    # Extract the source.
     tar --strip-components=1 -xj -f /tmp/jemalloc.tar.bz2
 
-    # Configure jemalloc to run in /app/vendor/jemalloc
+    # Configure jemalloc to run in /app/vendor/jemalloc directory.
     ./configure --prefix=/app/vendor/jemalloc
 
-    # Compile just the shared libraries
+    # Compile just the shared libraries.
     make -j $(nproc --all) build_lib_shared
 
     # Install directly into the cache directory for the stack and version.
@@ -108,7 +108,7 @@ function compile() {
     exit $retVal
   fi
 
-  # Reenable exit on failure
+  # Enable exit on failure.
   set -e
 }
 
