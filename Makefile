@@ -24,13 +24,14 @@ src/jemalloc-%.tar.bz2:
 	mkdir -p $$(dirname $@)
 	curl -fsL https://github.com/jemalloc/jemalloc/releases/download/$*/jemalloc-$*.tar.bz2 -o $@
 
-.PHONY: heroku-18 heroku-20 docker\:pull
+.PHONY: heroku-18 heroku-20 heroku-22 docker\:pull
 
 # Updates the docker image to ensure we're building with the latest
 # environment.
 docker\:pull:
 	docker pull heroku/heroku:18-build
 	docker pull heroku/heroku:20-build
+	docker pull heroku/heroku:22-build
 
 # Build for heroku-18 stack
 heroku-18: src/jemalloc-$(VERSION).tar.bz2 docker\:pull
