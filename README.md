@@ -14,20 +14,6 @@ platforms.
     # Push changes to deploy.
     $ git push
 
-## Made possible by Dead Man's Snitch
-
-Continued development and support of the jemalloc buildpack is sponsored by
-[Dead Man's Snitch](https://deadmanssnitch.com).
-
-Ever been surprised that a critical recurring job was silently failing to run?
-Whether it's backups, cache clearing, sending invoices, or whatever your
-application depends on, Dead Man's Snitch makes it easy to
-[monitor heroku scheduler](https://deadmanssnitch.com/docs/heroku) tasks or to add
-[cron job monitoring](https://deadmanssnitch.com/docs/cron-job-monitoring) to
-your other services.
-
-Get started for free today with [Dead Man's Snitch on Heroku](https://elements.heroku.com/addons/deadmanssnitch)
-
 ## Usage
 
 ### Recommended
@@ -73,15 +59,6 @@ Set this to select or pin to a specific version of jemalloc. The default is to
 use the latest stable version if this is not set. You will receive an error
 mentioning tar if the version does not exist.
 
-**Default**: `5.2.1`
-
-**note:** This setting is only used during slug compilation. Changing it will
-require a code change to be deployed in order to take affect.
-
-```console
-heroku config:set JEMALLOC_VERSION=3.6.0
-```
-
 #### Available Versions
 
 | Version                                                          | Released   |
@@ -99,32 +76,11 @@ heroku config:set JEMALLOC_VERSION=3.6.0
 | [5.2.1](https://github.com/jemalloc/jemalloc/releases/tag/5.2.1) | 2019-08-05 |
 | [5.3.0](https://github.com/jemalloc/jemalloc/releases/tag/5.3.0) | 2022-05-06 |
 
-The complete and most up to date list of supported versions and stacks is
-available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
+**Default**: `5.2.1`
 
-## Building
-
-This uses Docker to build against Heroku
-[stack-image](https://github.com/heroku/stack-images)-like images.
+**note:** This setting is only used during slug compilation. Changing it will
+require a code change to be deployed in order to take affect.
 
 ```console
-make VERSION=5.1.0
+heroku config:set JEMALLOC_VERSION=3.6.0
 ```
-
-Artifacts will be dropped in `dist/` based on Heroku stack and jemalloc version.
-
-### Deploying New Versions
-
-- `make VERSION=X.Y.Z`
-- `open dist`
-- Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
-- Edit the release corresponding to each heroku Stack
-- Drag and drop the new build to attach
-
-### Creating a New Stack
-
-- Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
-- Click "Draft a new release"
-- Tag is the name of the Stack (e.g. `heroku-18`)
-- Target is `release-master`
-- Title is `Builds for the [stack] stack`
