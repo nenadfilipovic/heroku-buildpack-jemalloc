@@ -7,10 +7,12 @@ platforms.
 
 ## Install
 
-```console
-heroku buildpacks:add --index 1 https://github.com/gaffneyc/heroku-buildpack-jemalloc.git
-git push heroku master
-```
+    # Add buildpack to your instance.
+    - Via website: nenadfilipovic/heroku-buildpack-jemalloc
+    - Via cli: heroku buildpacks:add nenadfilipovic/heroku-buildpack-jemalloc
+
+    # Push changes to deploy.
+    $ git push
 
 ## Made possible by Dead Man's Snitch
 
