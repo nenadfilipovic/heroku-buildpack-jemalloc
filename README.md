@@ -76,7 +76,7 @@ mentioning tar if the version does not exist.
 | [5.2.1](https://github.com/jemalloc/jemalloc/releases/tag/5.2.1) | 2019-08-05 |
 | [5.3.0](https://github.com/jemalloc/jemalloc/releases/tag/5.3.0) | 2022-05-06 |
 
-**Default**: `5.2.1`
+**Default**: `5.3.0`
 
 **note:** This setting is only used during slug compilation. Changing it will
 require a code change to be deployed in order to take affect.
